@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
+import { TSelectOption } from '~/@types/component';
 import { TFetchState } from '~/business/core/Domain';
 import { IVuexObservable } from '~/business/core/store/Domain';
 
 export enum EModal {
   NONE,
-  SUCCESS_SEARCH
+  FOUND_QUERY
 }
 
 export enum EQueryResult {
@@ -20,11 +21,18 @@ export enum EUrls {
   GET_QUERY_LIST = '/query_get_list'
 }
 
-export type TCountryOption = {
-  name: string;
-  fullName: string;
-  id: number;
+export type TResponseQueryCheck = {
+  res: number;
+  q_id?: number;
+  dstate?: string;
+  err_txt?: string;
+  q_state?: string | number;
+  dcreated?: string;
+  q_card_found?: number;
+  q_site_found?: number;
 };
+
+export type TCountryOption = TSelectOption;
 
 export type TInternalCountriesDictionary = {
   code: string;
@@ -65,9 +73,17 @@ export type TMountPayload = {
   documentId: number;
 };
 
+export type TSubmitQueryPayload = TSearchPayload;
+
+export type TSubmitQueryResponse = {
+    q_id: number;
+    query?: TSubmitQueryPayload;
+};
+
 export interface IService {
-  search(payload: TFormData): Promise<any>;
+  search(payload: TFormData): Promise<TResponseQueryCheck>;
   fetchCountryDictionary(): Promise<TCountryOption[]>;
+  submitQuery(payload: TFormData): Promise<TSubmitQueryResponse>;
 }
 
 export interface IPresenter extends IVuexObservable<TState> {
@@ -75,7 +91,8 @@ export interface IPresenter extends IVuexObservable<TState> {
   onFormChanged(form: TFormData): void;
   onSearchSubmit(): Promise<void>;
   onResetForm(): void;
-  onOpenSidebar(sidebarName: EModal): void;
+  onOpenSidebar(modal: EModal): void;
+  onSubmitQuery(): Promise<void>;
 }
 
 export const initSearchState = (): TState => ({

@@ -1,5 +1,5 @@
 import { Module } from 'vuex-module-decorators';
-import type { TState } from '../Domain';
+import type { TCountryOption, TState } from '../Domain';
 import { initSearchState } from '../Domain';
 import { BaseVuexModule } from '~/business/core/store/BaseVuexModule';
 
@@ -9,4 +9,8 @@ import { BaseVuexModule } from '~/business/core/store/BaseVuexModule';
 })
 export default class SearchStoreModule extends BaseVuexModule<TState> {
   internalState: TState = initSearchState();
+
+  public get countries(): TCountryOption[] {
+    return this.internalState.countries;
+  }
 }

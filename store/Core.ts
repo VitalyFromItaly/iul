@@ -12,6 +12,7 @@ export default class Core extends VuexModule {
 
   // notifications: any = [];
   // breadcrumbs: any = [];
+  currentPageName: string = 'Поиск';
   isLoading = true;
   // isButtonsAvaliable = true;
   // isAppLoaded = false;
@@ -47,6 +48,11 @@ export default class Core extends VuexModule {
   @Mutation
   setIsLoading(): void {
     this.isLoading = true;
+  }
+
+  @Mutation
+  setCurrentPageName(name: string): void {
+    this.currentPageName = name;
   }
 
   @Mutation

@@ -3,6 +3,7 @@
     <div class="">
       <layout-header />
       <layout-navigation />
+      <layout-heading />
       <div class="px-4">
         <nuxt />
       </div>
@@ -10,13 +11,15 @@
     </div>
 
     <layout-global-loading />
+    <notifications position="top center" class="mt-2" />
   </main>
 </template>
 
 <script lang="ts">
 import { Component, Vue, namespace } from 'nuxt-property-decorator';
 
-import { EVuexNamespaces } from '~/@types/domain';
+import { EVuexNamespaces, TNotificationPayload } from '~/@types/domain';
+import { EEventBusName } from '~/core/bus/Domain';
 const coreStore = namespace(EVuexNamespaces.CORE);
 
 @Component
@@ -25,11 +28,22 @@ export default class DefaultLayout extends Vue {
   @coreStore.Mutation removeIsLoading: () => void;
 
   async mounted(): Promise<void> {
+    this.onNotificationEvent();
+
     if (this.$route.path === '/') {
       await this.$router.replace({ name: 'search' });
     }
 
     this.removeIsLoading();
+  }
+
+  private onNotificationEvent(): void {
+    this.$bus.on(EEventBusName.NOTIFICATION, (payload: TNotificationPayload) => {
+      console.log({ payload });
+      const { type, title, text } = payload;
+      this.$notification({ title: title || '', text, type });
+    });
+    console.log(this.$bus);
   }
 }
 </script>

@@ -48,7 +48,9 @@ export default async() => {
       '~/plugins/context',
       '~/plugins/store',
       '~/plugins/presenter',
-      '~/plugins/cache'
+      '~/plugins/cache',
+      '~/plugins/notification',
+      '~/plugins/bus'
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components

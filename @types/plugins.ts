@@ -1,7 +1,9 @@
 // eslint-disable-next-line import/named
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
+import { TNotificationPayload } from './domain';
 import { IPresenterPlugin } from '~/plugins/presenter';
 import { IBrowserStorage } from '~/core/cache/Domain';
+import { IEventBus } from '~/core/bus/Domain';
 declare module 'vue/types/vue' {
   // this.$api inside Vue components
   interface Vue {
@@ -12,7 +14,8 @@ declare module 'vue/types/vue' {
     $presenter: IPresenterPlugin;
     $axios: NuxtAxiosInstance;
     $cache: IBrowserStorage;
-    // $notification: INotificationService;
+    $bus: IEventBus;
+    $notification: (payload: TNotificationPayload) => void;
   }
 }
 
@@ -26,7 +29,9 @@ declare module '@nuxt/types' {
     $presenter: IPresenterPlugin;
     $axios: NuxtAxiosInstance;
     $cache: IBrowserStorage;
-    // $notification: INotificationService;
+    $bus: IEventBus;
+    $notification: (payload: TNotificationPayload) => void;
+
   }
   interface Context {
     // $api: IApi;
@@ -36,6 +41,8 @@ declare module '@nuxt/types' {
     $presenter: IPresenterPlugin;
     $axios: NuxtAxiosInstance;
     $cache: IBrowserStorage;
+    $notification: (payload: TNotificationPayload) => void;
+    $bus: IEventBus;
     // $notification: INotificationService;
   }
 }
@@ -50,6 +57,8 @@ declare module 'vuex/types/index' {
     $presenter: IPresenterPlugin;
     $axios: NuxtAxiosInstance;
     $cache: IBrowserStorage;
+    $bus: IEventBus;
+    $notification: (payload: TNotificationPayload) => void;
     // $auth: IAuth;
     // $cacheClient: Socket;
     // $rabbit: (channel: string, options?: any) => Ws;

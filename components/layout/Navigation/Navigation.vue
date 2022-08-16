@@ -12,27 +12,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator';
-import { EPages, ELinks } from '~/@types/domain';
+import { Component, namespace, Vue, Watch } from 'nuxt-property-decorator';
+import { ENavTabs, EPageNames, EVuexNamespaces } from '~/@types/domain';
 type TTabLink = {
   name: string;
   rusNamePage: string;
   isActive: boolean;
 };
+const coreStore = namespace(EVuexNamespaces.CORE);
 
 @Component
 export default class Navigation extends Vue {
-  EPages = EPages;
+  @coreStore.Mutation setCurrentPageName: (name: string) => void;
+
+  ENavTabs = ENavTabs;
 
   currentPage: string = '';
 
-  @Watch('$route.path', { immediate: true })
+  @Watch('$route.path', { immediate: true, deep: true })
   onPathChanged(path: string): void {
     this.currentPage = path.substring(1);
+    this.setCurrentPageName(this.currentPage);
   }
 
   get pages(): TTabLink[] {
-    return Object.values(this.EPages).map(page => ({ name: page, rusNamePage: ELinks[page], isActive: this.currentPage === page }));
+    return Object.values(this.ENavTabs).map(page => ({ name: page, rusNamePage: EPageNames[page], isActive: this.currentPage === page }));
   }
 }
 </script>

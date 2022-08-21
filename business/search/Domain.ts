@@ -1,17 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { TSelectOption } from '~/@types/component';
+import { TButtonVariant, TSelectOption } from '~/@types/component';
+import { EHttpCodes } from '~/@types/http';
 import { TFetchState } from '~/business/core/Domain';
 import { IVuexObservable } from '~/business/core/store/Domain';
 
 export enum EModal {
   NONE,
-  FOUND_QUERY
-}
-
-export enum EQueryResult {
-  NEVER,
-  PENDING,
-  EXIST
+  QUERY_INFO
 }
 
 export enum EUrls {
@@ -63,10 +58,37 @@ export type TSearchPayload = {
   iul_employee?: string;
 };
 
+export type TModalHeader = { header: string };
+
+export type TMethod = {
+  type: 'presenter' | 'router';
+  name: string;
+  params?: any;
+  presenterInstance?: string,
+};
+
+export type TModalButton = {
+  variant: TButtonVariant;
+  text: string;
+  method: TMethod;
+  isDisabled?: boolean;
+};
+
+export type TModalQueryData = TModalHeader & {
+  data: TResponseQueryCheck;
+  buttons: TModalButton[];
+};
+
+export type TModal = {
+  data: TModalQueryData;
+  shown: EModal
+};
+
 export type TState = TFetchState & {
   form: TFormData;
   countries: TCountryOption[];
-  modalShown: EModal;
+  modal: TModal;
+  lastQuery: TResponseQueryCheck;
 };
 
 export type TMountPayload = {
@@ -76,14 +98,14 @@ export type TMountPayload = {
 export type TSubmitQueryPayload = TSearchPayload;
 
 export type TSubmitQueryResponse = {
-    q_id: number;
-    query?: TSubmitQueryPayload;
+  q_id: number;
+  query?: TSubmitQueryPayload;
 };
 
 export interface IService {
   search(payload: TFormData): Promise<TResponseQueryCheck>;
   fetchCountryDictionary(): Promise<TCountryOption[]>;
-  submitQuery(payload: TFormData): Promise<TSubmitQueryResponse>;
+  submitQuery(payload: TFormData): Promise<EHttpCodes>;
 }
 
 export interface IPresenter extends IVuexObservable<TState> {
@@ -91,7 +113,8 @@ export interface IPresenter extends IVuexObservable<TState> {
   onFormChanged(form: TFormData): void;
   onSearchSubmit(): Promise<void>;
   onResetForm(): void;
-  onOpenSidebar(modal: EModal): void;
+  // onOpenModal(modal: EModal): void;
+  onCloseModal():void;
   onSubmitQuery(): Promise<void>;
 }
 
@@ -100,5 +123,9 @@ export const initSearchState = (): TState => ({
   isError: false,
   form: {} as TFormData,
   countries: [],
-  modalShown: EModal.NONE
+  modal: {
+    data: null,
+    shown: EModal.NONE
+  },
+  lastQuery: null
 });

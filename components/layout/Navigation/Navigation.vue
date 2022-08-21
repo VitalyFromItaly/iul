@@ -36,7 +36,7 @@ export default class Navigation extends Vue {
   }
 
   get pages(): TTabLink[] {
-    return Object.values(this.ENavTabs).map(page => ({ name: page, rusNamePage: EPageNames[page], isActive: this.currentPage === page }));
+    return Object.values(this.ENavTabs).map(page => ({ name: page, rusNamePage: EPageNames[page], isActive: this.currentPage.includes(page) }));
   }
 }
 </script>

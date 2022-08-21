@@ -1,12 +1,14 @@
-import PresenterCatcher from '../core/decorators/PresenterCatcher';
 import Service from './Service';
-import type { IPresenter, TState, IService, TFormData } from './Domain';
-import { EModal, EQueryResult } from './Domain';
+import type { IPresenter, TState, IService, TFormData, TModal, TModalButton } from './Domain';
+import { EModal } from './Domain';
+import PresenterCatcher from '~/core/decorators/PresenterCatcher';
 import { VuexObservable } from '~/business/core/store/VuexObservable';
 import { IVuexStateHolder } from '~/business/core/store/Domain';
 import { EEventBusName, IEventBus } from '~/core/bus/Domain';
-import { TNotificationPayload } from '~/@types/domain';
 import { context } from '~/core/context';
+import { EQueryResultState, TNotificationPayload } from '~/@types/domain';
+import { EHttpCodes } from '~/@types/http';
+
 export default class Presenter extends VuexObservable<TState> implements IPresenter {
   private readonly service: IService;
   private readonly bus: IEventBus;
@@ -31,47 +33,113 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
     this.onChangeState({ countries });
   }
 
-  public onOpenSidebar(modal: EModal): void {
+  private onOpenModal(modal: EModal): void {
     this.onChangeState({ modalShown: modal });
+  }
+
+  public onCloseModal(): void {
+    this.onChangeState({ modal: { data: null, shown: EModal.NONE } });
   }
 
   @PresenterCatcher()
   public async onSearchSubmit(): Promise<void> {
     const { form } = this.state;
     const response = await this.service.search(form);
+    this.onChangeState({ lastQuery: response });
     const { res: result } = response;
     this.onQueryResult(result);
   }
 
-  private async onQueryResult(result: EQueryResult): Promise<void> {
-    console.log({ result });
-    if (result === EQueryResult.NEVER) {
-      this.bus.emit<TNotificationPayload>(EEventBusName.NOTIFICATION, {
-        type: 'success',
-        title: 'Новый запрос',
-        text: 'Данный запрос помещен в режим ожидания'
-      });
+  private onQueryResult(result: EQueryResultState): Promise<void> {
+    const buttons: TModalButton[] = [
+      {
+        variant: 'danger',
+        text: 'Закрыть',
+        method: {
+          type: 'presenter',
+          name: 'onCloseModal'
+        }
+      },
+      {
+        variant: 'outline-primary',
+        text: 'Отправить заново',
+        method: {
+          type: 'presenter',
+          name: 'onSearchSubmit'
+        }
+      }
+    ];
+    if (result === EQueryResultState.NEVER) {
+      this.onSubmitQuery();
 
-      await this.onSubmitQuery();
+      buttons.push({
+        variant: 'primary',
+        text: 'Журнал',
+        method: {
+          type: 'router',
+          name: 'push',
+          params: { name: 'journal' }
+        }
+      });
+      const modal: TModal = {
+        shown: EModal.QUERY_INFO,
+        data: {
+          header: 'Новый запрос',
+          data: this.state.lastQuery,
+          buttons
+        }
+      };
+      this.onChangeState({ modal });
       return;
     }
 
-    if (result === EQueryResult.PENDING) {
-      this.bus.emit<TNotificationPayload>(EEventBusName.NOTIFICATION, {
-        type: 'success',
-        title: '',
-        text: 'Данный запрос помещен в режим ожидания'
-      });
+    if (result === EQueryResultState.PENDING) {
+      const pendingButtons: TModalButton[] = [
+        {
+          variant: 'outline-primary',
+          text: 'Журнал',
+          method: {
+            type: 'router',
+            name: 'push',
+            params: { name: 'journal-id', params: { id: this.state.lastQuery.q_id } }
+          }
+        },
+        {
+          variant: 'primary',
+          text: 'Результат',
+          method: {
+            type: 'router',
+            name: 'push',
+            params: { name: 'result-id', params: { id: this.state.lastQuery.q_id } }
+          }
+        }
+      ];
+      buttons.push(...pendingButtons);
+      const modal: TModal = {
+        shown: EModal.QUERY_INFO,
+        data: {
+          header: 'Запрос уже существует',
+          data: this.state.lastQuery,
+          buttons
+        }
+      };
+      this.onChangeState({ modal });
     }
 
-    if (result === EQueryResult.EXIST) {
-      this.onChangeState({ modalShown: EModal.FOUND_QUERY });
+    if (result === EQueryResultState.DONE) {
+      this.onChangeState({ modalShown: EModal.QUERY_INFO });
     }
   }
 
   public async onSubmitQuery(): Promise<void> {
-    const response = await this.service.submitQuery(this.state.form);
-    console.log({ response });
+    const status = await this.service.submitQuery(this.state.form);
+
+    if (status !== EHttpCodes.SUCCESS) {
+      this.bus.emit<TNotificationPayload>(EEventBusName.NOTIFICATION, {
+        type: 'error',
+        text: 'Ошибка при подтверждении запроса'
+      });
+    }
   }
 
   public onResetForm(): void {

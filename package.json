@@ -18,6 +18,8 @@
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.19.3",
     "date-fns": "^2.29.1",
+    "devextreme": "22.1.4",
+    "devextreme-vue": "22.1.4",
     "dotenv": "^16.0.1",
     "hygen": "^6.2.8",
     "lodash": "4.17.21",

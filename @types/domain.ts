@@ -2,8 +2,8 @@
 export enum ENavTabs {
   SEARCH = 'search',
   REQUESTS = 'requests',
-  SETTINGS = 'settings',
-  STATE = 'state',
+  // SETTINGS = 'settings',
+  // STATE = 'state',
   JOURNAL = 'journal',
 }
 
@@ -29,6 +29,11 @@ export enum EVuexNamespaces {
 }
 
 export type TNotificationType = 'warn' | 'success' | 'error';
+
+export type TRouteEventPayload = {
+  name: 'string';
+  params?: { [x: string]: string }
+};
 
 export type TNotificationPayload = {
   // (optional)
@@ -57,3 +62,10 @@ export type TNotificationPayload = {
   // Data object that can be used in your template
   data?: any
 };
+
+export enum EQueryResultState {
+  NEVER,
+  PENDING,
+  DONE,
+  ERROR
+}

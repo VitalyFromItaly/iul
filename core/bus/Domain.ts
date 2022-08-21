@@ -5,5 +5,6 @@ export interface IEventBus {
 }
 
 export enum EEventBusName {
-  NOTIFICATION = 'notification'
+  NOTIFICATION = 'notification',
+  ROUTE = 'route'
 }

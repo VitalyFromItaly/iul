@@ -5,16 +5,16 @@ import { TFetchState } from '~/business/core/Domain';
 import { IVuexObservable } from '~/business/core/store/Domain';
 
 export type TState = TFetchState & {
-  documentId: number;
+  id: number;
   data: any;
 };
 
 export type TMountPayload = {
-  documentId: number;
+  id: number;
 };
 
 export interface IService {
-  read(documentId: number): Promise<any>;
+  read(id: number): Promise<any>;
 }
 
 export interface IPresenter extends IVuexObservable<TState> {
@@ -25,5 +25,5 @@ export const init<%= h.changeCase.upperCaseFirst(name) %>State = (): TState => (
   isLoading: true,
   isError: false,
   data: null,
-  documentId: null
+  id: null
 });

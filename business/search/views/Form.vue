@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col justify-center mt-10 w-full">
     <b-form class="border bg-blue-50 rounded-md p-5" @submit.prevent="onSubmit" @reset="onReset">
-      <form-input v-model="name" label="Наименование *" :required="true" />
+      <form-input v-model="name" label="Наименование*" :required="true" />
       <form-select v-model="country" :options="countries" label="Страна" />
       <form-input v-model="id" label="Идентификатор" />
       <form-input v-model="address" label="Адрес" />
@@ -70,16 +70,16 @@ export default class Form extends Vue {
   }
 
   private setForm(): void {
-    this.$presenter.searchPresenter.onFormChanged(this.form);
+    this.$presenter.searchInstance.onFormChanged(this.form);
   }
 
   private async onSubmit(): Promise<void> {
-    await this.$presenter.searchPresenter.onSearchSubmit();
+    await this.$presenter.searchInstance.onSearchSubmit();
   }
 
   private onReset(): void {
     this.form = {} as TFormData;
-    this.$presenter.searchPresenter.onResetForm();
+    this.$presenter.searchInstance.onResetForm();
   }
 }
 </script>

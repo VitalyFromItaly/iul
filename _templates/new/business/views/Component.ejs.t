@@ -2,11 +2,7 @@
 to: business/<%= section %>/<%= name %>/views/<%= h.changeCase.upperCaseFirst(name) %>.vue
 ---
 <template>
-  <cds-container label="<%= h.changeCase.upperCaseFirst(name) %>">
-    <div v-if="!state.isLoading">
-      {{ state.text }}
-    </div>
-  </cds-container>
+  <div></div>
 </template>
 
 <script lang="ts">
@@ -34,12 +30,3 @@ export default class <%= h.changeCase.upperCaseFirst(name) %> extends Vue {
   }
 }
 </script>
-
-<style lang="scss" module>
-@import '~@central-design-system/components/dist/mixins/scss/layout/spacing';
-@import '~@central-design-system/components/dist/mixins/scss/layout/breakpoint';
-
-h1 {
-   color: red;
-}
-</style>

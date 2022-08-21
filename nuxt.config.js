@@ -3,8 +3,8 @@ export default async() => {
   const fullEnvName = process.env.NODE_ENV;
   const isDev = fullEnvName === 'dev';
   // const isProd = fullEnvName !== 'dev';
-  let baseUrl = '/';
-  let port = 3011;
+  let baseUrl = 'http://astra.rco.ru';
+  let port = 8005;
   if (isDev) {
     baseUrl = 'http://astra.rco.ru';
     port = 8005;
@@ -13,7 +13,8 @@ export default async() => {
     publicRuntimeConfig: {
       environment: process.env.NODE_ENV,
       baseUrl,
-      port
+      port,
+      authPort: 8002
     },
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
@@ -29,7 +30,7 @@ export default async() => {
     head: {
       title: 'iul',
       htmlAttrs: {
-        lang: 'en'
+        lang: 'ru'
       },
       meta: [
         { charset: 'utf-8' },
@@ -41,7 +42,7 @@ export default async() => {
     },
 
     // Global CSS: https://go.nuxtjs.dev/config-css
-    css: [],
+    css: ['devextreme/dist/css/dx.light.css'],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
@@ -50,7 +51,8 @@ export default async() => {
       '~/plugins/presenter',
       '~/plugins/cache',
       '~/plugins/notification',
-      '~/plugins/bus'
+      '~/plugins/bus',
+      '~/plugins/directives'
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components

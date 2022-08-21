@@ -87,7 +87,6 @@ export const initResultState = (): TState => ({
 });
 
 export const webpageSiteDictionary = {
-  [EWebPageType.NULL]: 'Не задано',
   [EWebPageType.SITE]: 'Сайт',
   [EWebPageType.IMAGE]: 'Картинка'
 };

@@ -1,9 +1,13 @@
 import has from 'lodash/has';
 import { Mutation } from 'vuex-module-decorators';
 import { IStoreModule } from './Domain';
-
+import { context } from '~/core/context';
 export class BaseVuexModule<T> implements IStoreModule<T> {
-  internalState: T;
+  public internalState: T;
+
+  public get isLoading(): boolean {
+    return context.store.state.Core.isLoading;
+  }
 
   @Mutation
   public onSetState(newState: Partial<T>): void {

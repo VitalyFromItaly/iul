@@ -4,16 +4,6 @@ export class VuexObservable<T> implements IVuexObservable<T> {
   subscriberList: ((state: T) => void)[] = [];
 
   constructor(private stateMutator: IVuexStateHolder<T>) {}
-  // subscribe(subscriber: (state: T) => void): void {
-  //   this.subscriberList.push(subscriber);
-  // }
-
-  // unsubscribe(subscriber: (state: T) => void): void {
-  //   const index = this.subscriberList.indexOf(subscriber);
-  //   if (index > -1) {
-  //     this.subscriberList.splice(index, 1);
-  //   }
-  // }
 
   get state(): T {
     return this.stateMutator.state;

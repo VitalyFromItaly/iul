@@ -1,5 +1,5 @@
 import Service from './Service';
-import { IPresenter, TState, IService, TMountPayload } from './Domain';
+import type { IPresenter, TState, IService, TMountPayload } from './Domain';
 import { VuexObservable } from '~/business/core/store/VuexObservable';
 import { IVuexStateHolder } from '~/business/core/store/Domain';
 import { EEventBusName, IEventBus } from '~/core/bus/Domain';
@@ -19,7 +19,7 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
   @PresenterCatcher()
   public async onMounted(payload: TMountPayload): Promise<void> {
     this.onChangeState({ ...payload });
-    const { data: { data } } = await this.service.read(this.state.id);
-    this.onChangeState({ data, isLoading: false });
+    const requests = await this.service.readAll();
+    this.onChangeState({ requests });
   }
 }

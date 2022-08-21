@@ -16,7 +16,6 @@ export default class Service implements IService {
 
   async readOne(id: number): Promise<TResult[]> {
     const { data, status } = await this.axios.post<{ results: TResult[] }>(EUrls.GET_RESULT_BY_ID, { q_id: id });
-    console.log({ data });
     if (status !== EHttpCodes.SUCCESS) {
       return null;
     }

@@ -1,5 +1,5 @@
 import type { NuxtAxiosInstance } from '@nuxtjs/axios';
-import { IService, EUrls } from './Domain';
+import { IService, EUrls, TRequest, TQueryRequestPayload } from './Domain';
 import { IBrowserStorage } from '~/core/cache/Domain';
 import { EHttpCodes } from '~/@types/http';
 import { context } from '~/core/context';
@@ -13,12 +13,16 @@ export default class Service implements IService {
     this.axios = $axios;
   }
 
-  async read(id: number): Promise<any> {
-    const { data, status } = await this.axios.get<any>(EUrls.COUNTRIES_DICTIONARY + `/${id}`);
+  public async read(payload: TQueryRequestPayload): Promise<TRequest[]> {
+    throw new Error('Method not implemented.');
+  }
+
+  public async readAll(): Promise<TRequest[]> {
+    const { data, status } = await this.axios.get<{ queries: TRequest[] }>(EUrls.GET_QUERY_LIST);
 
     if (status !== EHttpCodes.SUCCESS) {
       return null;
     }
-    return data;
+    return data.queries;
   }
 }

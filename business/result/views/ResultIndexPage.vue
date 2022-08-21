@@ -1,5 +1,5 @@
 <template>
-  <div v-if="results">
+  <div v-if="!isLoading && results.length">
     <h3 class="text-center my-3 text-xl">
       Результаты запроса с id {{ id }}
     </h3>
@@ -17,7 +17,7 @@
       key-expr="res_id"
     >
       <dx-selection mode="multiple" />
-      <dx-group-panel :visible="true" />
+      <dx-group-panel :visible="true" empty-panel-text="Перетащите колонку для сортировки таблицы" />
       <dx-export
         :texts="exportTextConfig"
         :enabled="true"
@@ -77,6 +77,7 @@ import Attributes from './ResultsAttributes.vue';
 @Component({ components: { DxDataGrid, DxColumn, DxMasterDetail, Attributes, DxExport, DxGroupPanel, DxSelection } })
 export default class Result extends Vue {
   @resultStoreModule.State('internalState') state: TState;
+  @resultStoreModule.Getter isLoading: boolean;
   private presenter: IPresenter;
 
   private readonly exportTextConfig = {

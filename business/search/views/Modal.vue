@@ -8,12 +8,13 @@
       <p>Состояние запроса - {{ queryState }}</p>
     </template>
     <template #footer>
-      <div class="flex justify-end space-x-5 mr-3 mt-3">
+      <div class="flex justify-end mt-3">
         <b-button
           v-for="({ variant, method, isDisabled, text }, index) in modalData.buttons"
           :key="index"
           :class="[ isDisabled ? 'cursor-not-allowed': '' ]"
           :disabled="!!isDisabled"
+          class="mr-3"
           size="sm"
           :variant="variant"
           @click="invokeMethod(method)"

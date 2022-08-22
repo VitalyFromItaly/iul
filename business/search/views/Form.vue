@@ -6,8 +6,8 @@
       <form-input v-model="id" label="Идентификатор" />
       <form-input v-model="address" label="Адрес" />
       <form-input v-model="boss" label="Руководитель" />
-      <div class="flex justify-end space-x-5 mr-3 mt-3">
-        <b-button type="reset" variant="danger">Сбросить</b-button>
+      <div class="flex justify-end mr-3 mt-3">
+        <b-button class="mr-3" type="reset" variant="danger">Сбросить</b-button>
         <b-button type="submit" variant="primary">Отправить</b-button>
       </div>
     </b-form>

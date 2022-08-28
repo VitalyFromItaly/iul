@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-overlay :show="state.isLoading">
-      <search-form class="lg:px-48"/>
+      <search-form class="lg:px-48" />
     </b-overlay>
-    <modal v-if="state.modal.shown === EModal.QUERY_INFO" @close="close" />
+    <modal v-if="state.modal.shown === EModal.QUERY_INFO" />
   </div>
 </template>
 
@@ -23,12 +23,7 @@ export default class Search extends Vue {
 
   public async mounted(): Promise<void> {
     this.presenter = this.$presenter.searchInstance;
-
     await this.presenter.onMounted();
-  }
-
-  close() {
-    console.log('close');
   }
 }
 </script>

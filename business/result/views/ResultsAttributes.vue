@@ -53,6 +53,7 @@ export default class SiteAttributes extends Vue {
 </script>
 <style scoped>
   .image {
+    min-height: 300px;
     max-height: 500px;
     overflow-y: auto;
   }

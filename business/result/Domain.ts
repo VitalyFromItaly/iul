@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
+import { EQueryResultState } from '~/@types/domain';
 import { TFetchState } from '~/business/core/Domain';
 import { IVuexObservable } from '~/business/core/store/Domain';
 
 export enum EUrls {
-  GET_RESULT_BY_ID = '/query_get_results'
+  GET_RESULT_BY_ID = '/query_get_results',
+  GET_RESULT_INFO = '/query_get_list'
 }
 
 export enum ECheckState {
@@ -15,6 +17,32 @@ export enum EWebPageType {
   SITE = 1,
   IMAGE
 }
+
+export type TFormData = {
+  name: string;
+  country?: string;
+  id?: string;
+  address?: string;
+  boss?: string;
+};
+
+export type TResultInfo = {
+  q_id: number;
+  dstate: string;
+  q_text: TFormData;
+  err_txt: string;
+  q_state: EQueryResultState;
+  user_id: number;
+  q_text_show: string;
+  dcreated: string;
+  user_name: string;
+  q_state_text_show: string;
+  q_card_found: number;
+  q_site_found: number;
+  user_fullname: string;
+  q_card_filtered: number;
+  q_site_filtered: number;
+};
 
 export type TAttribute = {
   attr_value: string;
@@ -52,6 +80,9 @@ export type TResult = {
   res_type_name: string;
   source: string;
   title: string;
+  q_id: number;
+  res_main_page_id: number;
+  res_type_id: number;
   domain: string;
   attributes: TAttribute[] | null;
   check_state: ECheckState;
@@ -65,6 +96,7 @@ export type TResult = {
 export type TState = TFetchState & {
   id: number;
   results: TResult[];
+  resultsInfo: TResultInfo;
 };
 
 export type TMountPayload = {
@@ -73,6 +105,7 @@ export type TMountPayload = {
 
 export interface IService {
   readOne(id: number): Promise<TResult[]>;
+  readResultInfo(id: number): Promise<any>;
 }
 
 export interface IPresenter extends IVuexObservable<TState> {
@@ -83,12 +116,13 @@ export const initResultState = (): TState => ({
   isLoading: true,
   isError: false,
   id: null,
-  results: []
+  results: [],
+  resultsInfo: null
 });
 
 export const webpageSiteDictionary = {
   [EWebPageType.SITE]: 'Сайт',
-  [EWebPageType.IMAGE]: 'Картинка'
+  [EWebPageType.IMAGE]: 'Карточка'
 };
 
 export const checkStateDictionary = {

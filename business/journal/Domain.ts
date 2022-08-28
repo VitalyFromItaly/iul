@@ -56,6 +56,6 @@ export interface IPresenter extends IVuexObservable<TState> {
 export const initJournalState = (): TState => ({
   isLoading: true,
   isError: false,
-  logs: [],
+  logs: null,
   id: null
 });

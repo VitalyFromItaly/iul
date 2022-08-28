@@ -4,8 +4,14 @@
       <p>{{ header }}</p>
     </template>
     <template #body>
-      <p v-if="isQueryExist">Запрос был отправлен {{ date }} в {{ time }}</p>
-      <p>Состояние запроса - {{ queryState }}</p>
+      <p v-if="modalData.data.res === EQueryResultState.NEVER">
+        Запрос создан. Для просмотра хода выполнения перейдите в раздел
+        <nuxt-link class="text-blue-400 underline" :to="{ name: 'journal' }" >Запросы</nuxt-link>
+      </p>
+      <div v-else>
+        <p>Запрос был отправлен {{ date }} в {{ time }}</p>
+        <p>Состояние запроса - {{ stateText }}</p>
+      </div>
     </template>
     <template #footer>
       <div class="flex justify-end mt-3">
@@ -14,7 +20,7 @@
           :key="index"
           :class="[ isDisabled ? 'cursor-not-allowed': '' ]"
           :disabled="!!isDisabled"
-          class="mr-3"
+          class="ml-3"
           size="sm"
           :variant="variant"
           @click="invokeMethod(method)"
@@ -37,6 +43,12 @@ import { EQueryResultState } from '~/@types/domain';
 @Component({ components: { Modal } })
 export default class StateQueryModal extends Vue {
   @searchStoreModule.Getter modalData: TModalQueryData;
+
+  EQueryResultState = EQueryResultState;
+
+  destroyed(): void {
+    this.$presenter.searchInstance.onResetModal();
+  }
 
   private get header(): string {
     return this.modalData.header;
@@ -61,8 +73,8 @@ export default class StateQueryModal extends Vue {
     return null;
   }
 
-  private get queryState(): EQueryResultState {
-    return this.modalData.data.res;
+  private get stateText(): string {
+    return this.modalData.data.q_state_text_show;
   }
 
   private get queryId(): EQueryResultState {

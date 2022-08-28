@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { TButtonVariant, TSelectOption } from '~/@types/component';
+import { EQueryExistence, EQueryResultState } from '~/@types/domain';
 import { EHttpCodes } from '~/@types/http';
 import { TFetchState } from '~/business/core/Domain';
 import { IVuexObservable } from '~/business/core/store/Domain';
@@ -17,12 +18,13 @@ export enum EUrls {
 }
 
 export type TResponseQueryCheck = {
-  res: number;
+  res: EQueryExistence;
   q_id?: number;
   dstate?: string;
   err_txt?: string;
-  q_state?: string | number;
+  q_state?: EQueryResultState;
   dcreated?: string;
+  q_state_text_show: string;
   q_card_found?: number;
   q_site_found?: number;
 };
@@ -75,7 +77,7 @@ export type TModalButton = {
 };
 
 export type TModalQueryData = TModalHeader & {
-  data: TResponseQueryCheck;
+  data: Partial<TResponseQueryCheck>;
   buttons: TModalButton[];
 };
 
@@ -89,10 +91,8 @@ export type TState = TFetchState & {
   countries: TCountryOption[];
   modal: TModal;
   lastQuery: TResponseQueryCheck;
-};
-
-export type TMountPayload = {
-  documentId: number;
+  queryState: EQueryResultState;
+  result: EQueryExistence;
 };
 
 export type TSubmitQueryPayload = TSearchPayload;
@@ -106,21 +106,27 @@ export interface IService {
   search(payload: TFormData): Promise<TResponseQueryCheck>;
   fetchCountryDictionary(): Promise<TCountryOption[]>;
   submitQuery(payload: TFormData): Promise<EHttpCodes>;
+  saveFormInCache(payload: TFormData): void;
+  getFormFromCache(): TFormData | null;
 }
 
 export interface IPresenter extends IVuexObservable<TState> {
   onMounted(): Promise<void>;
   onFormChanged(form: TFormData): void;
-  onSearchSubmit(): Promise<void>;
+  onSearchSubmit(payload: TFormData): Promise<void>;
   onResetForm(): void;
-  // onOpenModal(modal: EModal): void;
-  onCloseModal():void;
+  onSaveFormInCache(payload: TFormData): void
+  onCloseModal(): void;
+  onResetModal(): void;
   onSubmitQuery(): Promise<void>;
+  getCachedForm(): TFormData;
 }
 
 export const initSearchState = (): TState => ({
   isLoading: true,
   isError: false,
+  result: EQueryExistence.NO,
+  queryState: EQueryResultState.NEVER,
   form: {} as TFormData,
   countries: [],
   modal: {

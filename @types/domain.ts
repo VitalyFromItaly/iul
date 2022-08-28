@@ -63,6 +63,11 @@ export type TNotificationPayload = {
   data?: any
 };
 
+export enum EQueryExistence {
+  NO,
+  YES
+}
+
 export enum EQueryResultState {
   NEVER,
   PENDING,

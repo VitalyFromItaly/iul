@@ -13,8 +13,14 @@ export default class Service implements IService {
     this.axios = $axios;
   }
 
-  public async read(payload: TQueryRequestPayload): Promise<TRequest[]> {
-    throw new Error('Method not implemented.');
+  public async readOne(payload: TQueryRequestPayload): Promise<TRequest[]> {
+    const { data, status } = await this.axios.post<{ queries: TRequest[] }>(EUrls.GET_QUERY_LIST, payload);
+
+    if (status !== EHttpCodes.SUCCESS) {
+      return null;
+    }
+
+    return data.queries;
   }
 
   public async readAll(): Promise<TRequest[]> {
@@ -23,6 +29,7 @@ export default class Service implements IService {
     if (status !== EHttpCodes.SUCCESS) {
       return null;
     }
+
     return data.queries;
   }
 }

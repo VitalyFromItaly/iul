@@ -13,6 +13,16 @@
     :focused-row-enabled="true"
     key-expr="h_id"
   >
+    <dx-sorting mode="multiple" />
+    <dx-paging :page-size="20" />
+    <dx-pager
+      :visible="true"
+      :allowed-page-sizes="[5, 10, 20, 30, 'all']"
+      display-mode="full"
+      :show-page-size-selector="true"
+      :show-info="true"
+      :show-navigation-buttons="true"
+    />
     <dx-column
       data-field="dcreated"
       data-type="date"
@@ -28,6 +38,7 @@
     <dx-column
       caption="Запрос"
       data-field="q_text"
+      format="text"
       cell-template="q_text"
       width="20%"
     />
@@ -50,26 +61,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
-import { DxDataGrid, DxColumn } from 'devextreme-vue/data-grid';
+import { DxDataGrid, DxColumn, DxPager, DxPaging, DxSorting } from 'devextreme-vue/data-grid';
 import type { TState, IPresenter } from '../Domain';
 import { journalStoreModule } from '../store';
 
-@Component({ components: { DxDataGrid, DxColumn } })
+@Component({ components: { DxDataGrid, DxColumn, DxPager, DxPaging, DxSorting } })
 export default class Journal extends Vue {
   @journalStoreModule.State('internalState') state: TState;
 
   private presenter: IPresenter;
 
   destroyed(): void {
-    this.presenter.onResetState();
-  }
-
-  get id(): number {
-    return +this.$route.params.id;
-  }
-
-  public async mounted(): Promise<void> {
-    this.presenter = this.$presenter.journalInstance;
+    this.$presenter.journalInstance.onResetState();
   }
 }
 </script>

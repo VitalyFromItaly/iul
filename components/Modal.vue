@@ -14,12 +14,12 @@
             class="flex items-start justify-between p-2 border-b border-solid border-slate-200 rounded-t"
           >
             <h3
-              class="text-xl font-semibold flex items-baseline justify-center pl-3"
+              class="text-xl font-semibold flex items-baseline justify-center px-3"
             >
               <slot name="header"></slot>
             </h3>
             <button
-              class="bg-transparent border-0 text-black opacity-75 float-right text-2xl leading-none font-normal outline-none focus:outline-none pr-4"
+              class="bg-transparent border-0 text-black opacity-75 float-right text-2xl leading-none font-normal outline-none focus:outline-none"
               @click="$emit('close')"
             >
               <span class="text-black"> × </span>
@@ -31,7 +31,7 @@
           </div>
           <!--footer-->
           <div
-            class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b"
+            class="flex items-center justify-end px-2 pb-2 border-t border-solid border-slate-200 rounded-b"
           >
             <slot name="footer"></slot>
           </div>

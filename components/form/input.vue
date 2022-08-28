@@ -30,15 +30,16 @@ import { v4 as uuidv4 } from 'uuid';
 export default class Input extends Vue {
   @Prop({ default: 'label' }) label: string;
   @Prop({ default: 'text' }) type: string;
-  @Prop({ default: 'Необходимое поле для заполнения' }) invalidMessage: string;
+  @Prop({ default: 'Обязательное поле для заполнения' }) invalidMessage: string;
   @Prop({ default: false }) required: boolean;
   @Prop({ default: '...' }) placeholder: string;
   @Prop({ default: uuidv4() }) id: string;
+  @Prop() value: string | number;
 
   internalValue: string | number = '';
   wasFocused: boolean = false;
 
-  @Watch('value', { immediate: true, deep: true })
+  @Watch('value', { immediate: false, deep: true })
   onValueChanged(value: string | number): void {
     this.internalValue = value;
   }

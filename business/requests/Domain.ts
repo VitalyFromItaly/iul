@@ -10,10 +10,11 @@ export enum EUrls {
 export type TText = {
   oksm_id: string;
   iul_name: string;
+  [x: string]: string;
 };
 
 export type TQueryRequestPayload = {
-  q_id: 26,
+  q_id: number,
   dcreated_from?: string;
   dcreated_to?: string;
   dstate_from?: string;
@@ -26,9 +27,11 @@ export type TRequest = {
   q_text: TText;
   err_txt: string;
   q_state: EQueryResultState;
-  user_id: 0;
+  user_id: number;
+  q_text_show: string;
   dcreated: string;
   user_name: string;
+  q_state_text_show: string;
   q_card_found: number;
   q_site_found: number;
   user_fullname: string;
@@ -47,7 +50,7 @@ export type TMountPayload = {
 
 export interface IService {
   readAll(): Promise<TRequest[]>;
-  read(payload: TQueryRequestPayload): Promise<TRequest[]>;
+  readOne(payload: TQueryRequestPayload): Promise<TRequest[]>;
 }
 
 export interface IPresenter extends IVuexObservable<TState> {

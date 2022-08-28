@@ -3,7 +3,7 @@ import { IService, TCountriesDictionary, TCountryOption, TFormData, TInternalCou
 import { prepareFormData } from './helpers/prepareFormData';
 import { context } from '~/core/context';
 import { IBrowserStorage } from '~/core/cache/Domain';
-import { ONE_DAY } from '~/constants/time';
+import { ONE_DAY, ONE_MONTH } from '~/constants/time';
 import { EHttpCodes } from '~/@types/http';
 import { ETags, EKeys } from '~/@types/cache';
 
@@ -51,7 +51,19 @@ export default class Service implements IService {
     const payload = prepareFormData(rawPayload);
 
     const { status } = await this.axios.post<TSubmitQueryResponse>(EUrls.QUERY_SUBMIT, payload);
-    console.log(status);
     return status;
+  }
+
+  public saveFormInCache(form: TFormData): void {
+    this.cache.set<TFormData>('lastFormData', 'search', form, ONE_MONTH);
+  }
+
+  public getFormFromCache(): TFormData | null {
+    const lastForm = this.cache.get<TFormData>('lastFormData', 'search');
+    if (lastForm) {
+      return lastForm;
+    }
+
+    return null;
   }
 }

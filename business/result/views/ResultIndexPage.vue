@@ -1,8 +1,13 @@
 <template>
   <div v-if="!isLoading && results.length">
-    <h3 class="text-center my-3 text-xl">
+    <h3 v-if="!state.resultsInfo" class="text-center my-3 text-xl">
       Результаты запроса с id {{ id }}
     </h3>
+    <div v-else class="flex flex-col items-center">
+      <p> <span class="text-gray-600">Запрос:</span> {{ state.resultsInfo.q_text_show }} </p>
+      <p> <span class="text-gray-600">Создан:</span> {{ state.resultsInfo.dcreated | formatDateFilter }} </p>
+      <p> <span class="text-gray-600">Выполнен:</span> {{ state.resultsInfo.dstate | formatDateFilter }} </p>
+    </div>
     <dx-data-grid
       id="gridID"
       :show-column-lines="true"
@@ -16,6 +21,15 @@
       :focused-row-enabled="true"
       key-expr="res_id"
     >
+      <dx-paging :page-size="20" />
+      <dx-pager
+        :visible="true"
+        :allowed-page-sizes="[5, 10, 20, 30, 'all']"
+        display-mode="full"
+        :show-page-size-selector="true"
+        :show-info="true"
+        :show-navigation-buttons="true"
+      />
       <dx-selection mode="multiple" />
       <dx-group-panel :visible="true" empty-panel-text="Перетащите колонку для сортировки таблицы" />
       <dx-export
@@ -24,17 +38,10 @@
         :allow-export-selected-data="true"
       />
       <dx-column
-        data-field="webpage_type_id"
+        data-field="res_type_name"
         caption="Тип"
         width="20%"
-        cell-template="webpage_type_id"
       />
-      <template #webpage_type_id="{ data: { data: { webpage_type_id } } }">
-        <p v-if="webpage_type_id" class="text-left">
-          {{ webpageSiteDictionary[webpage_type_id] }}
-        </p>
-        <p v-else class="text-left"> Не задано </p>
-      </template>
       <dx-column
         caption="Источник"
         data-field="url"
@@ -59,7 +66,9 @@
       <dx-master-detail :enabled="true" template="attributes" />
       <template #attributes="{ data: { data: { attributes } } }">
         <attributes v-if="attributes" :attributes="attributes" />
-        <template v-else>Атрибуты отсутствуют</template>
+        <template v-else>
+          Атрибуты отсутствуют
+        </template>
       </template>
     </dx-data-grid>
   </div>
@@ -68,13 +77,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
-import { DxDataGrid, DxColumn, DxMasterDetail, DxExport, DxGroupPanel, DxSelection } from 'devextreme-vue/data-grid';
+import { DxDataGrid, DxColumn, DxMasterDetail, DxExport, DxGroupPanel, DxSelection, DxPager, DxPaging } from 'devextreme-vue/data-grid';
 import type { IPresenter, TState, TMountPayload, TResult } from '../Domain';
 import { resultStoreModule } from '../store';
 import { webpageSiteDictionary, checkStateDictionary } from '../Domain';
 import Attributes from './ResultsAttributes.vue';
+import { formatDateFilter } from '~/helpers/date';
 
-@Component({ components: { DxDataGrid, DxColumn, DxMasterDetail, Attributes, DxExport, DxGroupPanel, DxSelection } })
+@Component({ components: { DxDataGrid, DxColumn, DxMasterDetail, Attributes, DxExport, DxGroupPanel, DxSelection, DxPager, DxPaging }, filters: { formatDateFilter } })
 export default class Result extends Vue {
   @resultStoreModule.State('internalState') state: TState;
   @resultStoreModule.Getter isLoading: boolean;

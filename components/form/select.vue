@@ -32,24 +32,21 @@ import { TSelectOption } from '~/@types/component';
 export default class Select extends Vue {
   @Prop({ default: 'label' }) label: string;
   @Prop({ default: 'text' }) type: string;
-  @Prop({ default: 'Необходимое поле для заполнения' }) invalidMessage: string;
+  @Prop({ default: 'Обязательное поле для заполнения' }) invalidMessage: string;
   @Prop({ default: false }) required: boolean;
   @Prop({ default: [] }) options: TSelectOption[];
-  @Prop({ default: '...' }) placeholder: string;
+  @Prop({ default: 'Выбрать...' }) placeholder: string;
   @Prop({ default: uuidv4() }) id: string;
+  @Prop() value: string | number;
 
   internalValue: string = 'Выберете';
   wasFocused: boolean = false;
 
-  @Watch('value', { immediate: true, deep: true })
+  @Watch('value')
   onValueChanged(value: string): void {
-    this.internalValue = value;
-  }
-
-  mounted(): void {
-    setTimeout(() => {
-      this.internalValue = this.options[0]?.value;
-    }, 100);
+    if (value) {
+      this.internalValue = value;
+    }
   }
 
   get events(): any {

@@ -1,5 +1,5 @@
 import type { NuxtAxiosInstance } from '@nuxtjs/axios';
-import type { IService, TResult } from './Domain';
+import type { IService, TResult, TResultInfo } from './Domain';
 import { EUrls } from './Domain';
 import { IBrowserStorage } from '~/core/cache/Domain';
 import { context } from '~/core/context';
@@ -21,5 +21,15 @@ export default class Service implements IService {
     }
 
     return data.results;
+  }
+
+  async readResultInfo(id: number): Promise<TResultInfo> {
+    const { data, status } = await this.axios.post<{ queries: TResultInfo[]}>(EUrls.GET_RESULT_INFO, { q_id: id });
+    if (status !== EHttpCodes.SUCCESS) {
+      return null;
+    }
+    const [resultInfo] = data.queries;
+
+    return resultInfo;
   }
 }

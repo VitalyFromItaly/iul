@@ -1,20 +1,17 @@
 // eslint-disable-next-line require-await
 export default async() => {
   const fullEnvName = process.env.NODE_ENV;
-  const isDev = fullEnvName === 'dev';
-  // const isProd = fullEnvName !== 'dev';
-  let baseUrl = 'http://astra.rco.ru';
-  let port = 8005;
-  if (isDev) {
-    baseUrl = 'http://astra.rco.ru';
-    port = 8005;
-  }
+
+  const baseUrl = process.env.BASE_URL || 'http://astra.rco.ru';
+  const port = process.env.PORT || 8005;
+  const authPort = process.env.AUTH_PORT || 8002;
+
   const config = {
     publicRuntimeConfig: {
-      environment: process.env.NODE_ENV,
+      environment: fullEnvName,
       baseUrl,
       port,
-      authPort: 8002
+      authPort
     },
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
@@ -48,6 +45,7 @@ export default async() => {
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
       '~/plugins/context',
+      '~/plugins/auth',
       '~/plugins/store',
       '~/plugins/presenter',
       '~/plugins/cache',

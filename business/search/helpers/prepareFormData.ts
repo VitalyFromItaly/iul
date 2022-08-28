@@ -1,7 +1,7 @@
 import type { TFormData, TSearchPayload } from '../Domain';
 
 export const prepareFormData = (formData: TFormData): TSearchPayload => {
-  const { boss, address, name, id, country } = formData;
+  const { boss, address, name, id, country } = formData || {};
 
   const payload: TSearchPayload = { iul_name: name };
 

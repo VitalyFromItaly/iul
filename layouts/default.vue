@@ -27,6 +27,7 @@ export default class DefaultLayout extends Vue {
   @coreStore.Mutation removeIsLoading: () => void;
 
   mounted(): void {
+    console.log(this);
     this.onNotificationEvent();
   }
 

@@ -31,7 +31,7 @@ export enum EVuexNamespaces {
 export type TNotificationType = 'warn' | 'success' | 'error';
 
 export type TRouteEventPayload = {
-  name: 'string';
+  name: string;
   params?: { [x: string]: string }
 };
 

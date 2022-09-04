@@ -1,5 +1,5 @@
 import type { NuxtAxiosInstance } from '@nuxtjs/axios';
-import { IService, EUrls, TUserInfo, TUserInfoRaw } from './Domain';
+import { IService, EUrls, TUserInfo, TUserInfoRaw, TUser } from './Domain';
 import { userMapper } from './mappers/userMapper';
 import { IBrowserStorage } from '~/core/cache/Domain';
 import { EHttpCodes } from '~/@types/http';
@@ -16,19 +16,32 @@ export default class Service implements IService {
     this.axios = $axios;
   }
 
-  async read(): Promise<TUserInfo> {
-    const cacheUser = this.cache.get<TUserInfo>(EKeys.USER, ETags.USER);
-    if (cacheUser) { return cacheUser; }
+  public async read(): Promise<TUser> {
+    try {
+      const cacheUser = this.cache.get<TUser>(EKeys.USER, ETags.USER);
+      if (cacheUser) { return cacheUser; }
 
-    const { data: rawUser, status } = await this.axios.get<TUserInfoRaw>(EUrls.USER);
+      const { data: rawUser, status } = await this.axios.get<TUserInfoRaw>(EUrls.USER);
 
-    if (status !== EHttpCodes.SUCCESS) {
-      return null;
+      if (status !== EHttpCodes.SUCCESS) {
+        return null;
+      }
+
+      const user = userMapper(rawUser);
+      this.cache.set<TUserInfo>(EKeys.USER, ETags.USER, user, ONE_DAY);
+
+      return user;
+    } catch (err) {
+      window.location.reload();
     }
+  }
 
-    const user = userMapper(rawUser);
-    this.cache.set<TUserInfo>(EKeys.USER, ETags.USER, user, ONE_DAY);
-
-    return user;
+  public async logout(): Promise<void> {
+    try {
+      this.cache.remove(EKeys.USER, ETags.USER);
+      await this.axios.get(EUrls.LOGOUT);
+    } catch (err) {
+      window.location.reload();
+    }
   }
 }

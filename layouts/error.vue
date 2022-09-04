@@ -7,13 +7,6 @@
     <p v-if="error.description">
       {{ error.description }}
     </p>
-    <p v-else>
-      Вы перешли на страницу, которой не существует, была удалена или перемещена по другому адресу
-    </p>
-    <!-- <cds-link v-if="error.isLinkShown" :to="error.link" :text="error.linkName" />
-    <cds-link v-else-if="error.statusCode === 404" to="/list" text="На страницу реестра документов" /> -->
-    <footer class="cds-mt-m">
-    </footer>
   </div>
 </template>
 

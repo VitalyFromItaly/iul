@@ -49,6 +49,7 @@ export type TAttribute = {
   attr_type_id: number; // -1 показать картинку
   attr_type_name: string;
   png?: number;
+  urlImage?: string;
   res_id?: number;
 };
 

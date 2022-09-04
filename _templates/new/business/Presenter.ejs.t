@@ -23,6 +23,6 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
   public async onMounted(payload: TMountPayload): Promise<void> {
     this.onChangeState({ ...payload });
     const { data: { data } } = await this.service.read(this.state.id);
-    this.onChangeState({ data, isLoading: false });
+    this.onChangeState({ data });
   }
 }

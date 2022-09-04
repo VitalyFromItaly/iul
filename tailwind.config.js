@@ -10,6 +10,9 @@ module.exports = {
         '8xl': '96rem',
         '9xl': '128rem'
       },
+      colors: {
+        header: '#017BFE'
+      },
       borderRadius: {
         '4xl': '2rem'
       }

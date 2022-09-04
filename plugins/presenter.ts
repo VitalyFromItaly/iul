@@ -18,11 +18,16 @@ import { IPresenter as IRequestsPresenter, initRequestsState } from '~/business/
 import RequestsPresenter from '~/business/requests/Presenter';
 import { REQUESTS_STORE_NS } from '~/business/requests/store/index';
 
+import { IPresenter as IUserPresenter, initUserState } from '~/business/user/Domain';
+import UserPresenter from '~/business/user/Presenter';
+import { USER_STORE_NS } from '~/business/user/store/index';
+
 export interface IPresenterPlugin {
   searchInstance: ISearchInstance;
   journalInstance: IJournalPresenter;
   resultInstance: IResultPresenter;
   requestsInstance: IRequestsPresenter;
+  userInstance: IUserPresenter;
 }
 // @ts-ignore;
 const presenter: Plugin = (context: Context, inject: any) => {
@@ -32,8 +37,19 @@ const presenter: Plugin = (context: Context, inject: any) => {
   let presenterJournal: IJournalPresenter;
   let presenterResult: IResultPresenter;
   let presenterRequests: IRequestsPresenter;
+  let presenterUser: IUserPresenter;
 
   inject('presenter', {
+    get userInstance(): IUserPresenter {
+      if (presenterUser) {
+        return presenterUser;
+      }
+
+      const userAdapter = new BaseVuexStateHolder(store, initUserState(), USER_STORE_NS);
+      presenterUser = new UserPresenter(userAdapter);
+      return presenterUser;
+    },
+
     get requestsInstance(): IRequestsPresenter {
       if (presenterRequests) {
         return presenterRequests;

@@ -20,6 +20,7 @@
       :two-way-binding-enabled="true"
       :focused-row-enabled="true"
       key-expr="res_id"
+      @exporting="onExporting"
     >
       <dx-paging :page-size="20" />
       <dx-pager
@@ -44,7 +45,7 @@
       />
       <dx-column
         caption="Источник"
-        data-field="url"
+        data-field="source"
         width="30%"
       />
       <dx-column
@@ -78,6 +79,10 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { DxDataGrid, DxColumn, DxMasterDetail, DxExport, DxGroupPanel, DxSelection, DxPager, DxPaging } from 'devextreme-vue/data-grid';
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+// @ts-ignore
+import { saveAs } from 'file-saver';
 import type { IPresenter, TState, TMountPayload, TResult } from '../Domain';
 import { resultStoreModule } from '../store';
 import { webpageSiteDictionary, checkStateDictionary } from '../Domain';
@@ -114,6 +119,22 @@ export default class Result extends Vue {
     };
 
     await this.presenter.onMounted(payload);
+  }
+
+  onExporting(e: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet(`Запрос ${this.state.resultsInfo?.q_text_show || this.id}`);
+
+    exportDataGrid({
+      component: e.component,
+      worksheet,
+      autoFilterEnabled: true
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), `Результаты запроса ${this.state.resultsInfo?.q_text_show || this.id}.xlsx`);
+      });
+    });
+    e.cancel = true;
   }
 
   destroyed(): void {

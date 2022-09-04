@@ -8,7 +8,7 @@
       <b-navbar-toggle target="nav-collapse" />
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <p class="text-white">User name</p>
+          <user />
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -16,8 +16,9 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
+import User from '~/business/user/views/User.vue';
 
-@Component
+@Component({ components: { User } })
 export default class Header extends Vue {
 }
 </script>

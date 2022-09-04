@@ -72,7 +72,7 @@ export default class Journal extends Vue {
   private presenter: IPresenter;
 
   destroyed(): void {
-    this.$presenter.journalInstance.onResetState();
+    // this.$presenter.journalInstance.onResetState();
   }
 }
 </script>

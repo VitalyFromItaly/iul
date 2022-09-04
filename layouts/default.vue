@@ -15,20 +15,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, namespace } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 
-import { EVuexNamespaces, TNotificationPayload, TRouteEventPayload } from '~/@types/domain';
+import { TNotificationPayload, TRouteEventPayload } from '~/@types/domain';
 import { EEventBusName } from '~/core/bus/Domain';
-const coreStore = namespace(EVuexNamespaces.CORE);
 
 @Component
 export default class DefaultLayout extends Vue {
-  @coreStore.Mutation setIsLoading: () => void;
-  @coreStore.Mutation removeIsLoading: () => void;
+  public mounted(): void {
+    this.onEvents();
+  }
 
-  mounted(): void {
-    console.log(this);
+  private onEvents(): void {
     this.onNotificationEvent();
+    this.onRouteChange();
   }
 
   private onRouteChange(): void {

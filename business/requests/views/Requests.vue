@@ -171,7 +171,7 @@ export default class Requests extends Vue {
   }
 
   private destroyed(): void {
-    // this.presenter.onResetState();
+    this.presenter.onResetState();
   }
 
   onSelectionChanged({ selectedRowsData }: any): void {

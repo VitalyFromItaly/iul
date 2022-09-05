@@ -32,7 +32,7 @@ export default class Service implements IService {
 
       return user;
     } catch (err) {
-      window.location.reload();
+      console.log(err);
     }
   }
 

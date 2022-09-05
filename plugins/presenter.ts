@@ -43,7 +43,6 @@ const presenter: Plugin = (context: Context, inject: any) => {
   inject('presenter', {
     resetAll(): void {
       for (const presenter in this) {
-        console.log({ presenter });
         if (presenter && presenter !== 'resetAll') {
           this[presenter]?.onResetState();
         }

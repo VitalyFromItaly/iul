@@ -1,10 +1,22 @@
 <template>
   <div>
     <div>
-      <p v-if="name" class="text-white cursor-pointer" @click="isMenuShown = !isMenuShown">
+      <p
+        v-if="name"
+        class="text-white cursor-pointer"
+        @click="isMenuShown = !isMenuShown"
+      >
         {{ name }}
       </p>
-      <div v-if="isMenuShown" class="w-40 absolute text-header rounded-md px-2 py-0.5 bg-white z-50 right-5 top-12">
+      <div @click="onLogin" v-else>
+        <b-button variant="secondary">
+          Авторизоваться
+        </b-button>
+      </div>
+      <div
+        v-if="isMenuShown"
+        class="w-40 absolute text-header rounded-md px-2 py-0.5 bg-white z-50 right-5 top-12"
+      >
         <div class="py-1 text-right w-full">
           <b-button
             class="w-full"
@@ -46,9 +58,13 @@ export default class User extends Vue {
     await this.presenter.onLoad();
   }
 
+  onLogin(): void {
+    this.presenter.onLoad();
+  }
+
   private onLogout(): void {
-    this.presenter.onLogout();
     this.isMenuShown = false;
+    this.presenter.onLogout();
   }
 }
 </script>

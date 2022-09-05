@@ -123,7 +123,7 @@ export interface IPresenter extends IVuexObservable<TState> {
 }
 
 export const initSearchState = (): TState => ({
-  isLoading: true,
+  isLoading: false,
   isError: false,
   result: EQueryExistence.NO,
   queryState: EQueryResultState.NEVER,

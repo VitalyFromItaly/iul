@@ -37,11 +37,11 @@ export default class Service implements IService {
   }
 
   public async logout(): Promise<void> {
-    // try {
-    this.cache.remove(EKeys.USER, ETags.USER);
-    await this.axios.get(EUrls.LOGOUT);
-    // } catch (err) {
-    //   window.location.reload();
-    // }
+    try {
+      this.cache.remove(EKeys.USER, ETags.USER);
+      await this.axios.get(EUrls.LOGOUT);
+    } catch (err) {
+      context.$presenter.resetAll();
+    }
   }
 }

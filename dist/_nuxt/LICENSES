@@ -13,6 +13,47 @@
 
 
 /*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/**
+ * Character class utilities for XML NS 1.0 edition 3.
+ *
+ * @author Louis-Dominique Dubeau
+ * @license MIT
+ * @copyright Louis-Dominique Dubeau
+ */
+
+/**
+ * Character classes and associated utilities for the 2nd edition of XML 1.1.
+ *
+ * @author Louis-Dominique Dubeau
+ * @license MIT
+ * @copyright Louis-Dominique Dubeau
+ */
+
+/**
+ * Character classes and associated utilities for the 5th edition of XML 1.0.
+ *
+ * @author Louis-Dominique Dubeau
+ * @license MIT
+ * @copyright Louis-Dominique Dubeau
+ */
+
+
+/*!
  * vue-client-only v0.0.0-semantic-release
  * (c) 2021-present egoist <0x142857@gmail.com>
  * Released under the MIT License.
@@ -83,66 +124,6 @@ PERFORMANCE OF THIS SOFTWARE.
 
 
 /*!
-  * vue-router v3.5.4
-  * (c) 2022 Evan You
-  * @license MIT
-  */
-
-/*!
- * Vue.js v2.7.8
- * (c) 2014-2022 Evan You
- * Released under the MIT License.
- */
-
-/*!
- * vuex v3.6.2
- * (c) 2021 Evan You
- * @license MIT
- */
-
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
-/**
- * Character class utilities for XML NS 1.0 edition 3.
- *
- * @author Louis-Dominique Dubeau
- * @license MIT
- * @copyright Louis-Dominique Dubeau
- */
-
-/**
- * Character classes and associated utilities for the 2nd edition of XML 1.1.
- *
- * @author Louis-Dominique Dubeau
- * @license MIT
- * @copyright Louis-Dominique Dubeau
- */
-
-/**
- * Character classes and associated utilities for the 5th edition of XML 1.0.
- *
- * @author Louis-Dominique Dubeau
- * @license MIT
- * @copyright Louis-Dominique Dubeau
- */
-
-
-/*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <http://feross.org>
@@ -163,6 +144,25 @@ PERFORMANCE OF THIS SOFTWARE.
  * of the MIT license. See the LICENSE file in the root of the project for details.
  *
  * https://github.com/DevExpress/devextreme-vue
+ */
+
+
+/*!
+  * vue-router v3.5.4
+  * (c) 2022 Evan You
+  * @license MIT
+  */
+
+/*!
+ * Vue.js v2.7.8
+ * (c) 2014-2022 Evan You
+ * Released under the MIT License.
+ */
+
+/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
+ * @license MIT
  */
 
 

@@ -28,6 +28,7 @@ export interface IPresenterPlugin {
   resultInstance: IResultPresenter;
   requestsInstance: IRequestsPresenter;
   userInstance: IUserPresenter;
+  resetAll:() => void;
 }
 // @ts-ignore;
 const presenter: Plugin = (context: Context, inject: any) => {
@@ -40,6 +41,14 @@ const presenter: Plugin = (context: Context, inject: any) => {
   let presenterUser: IUserPresenter;
 
   inject('presenter', {
+    resetAll(): void {
+      for (const presenter in this) {
+        console.log({ presenter });
+        if (presenter && presenter !== 'resetAll') {
+          this[presenter]?.onResetState();
+        }
+      }
+    },
     get userInstance(): IUserPresenter {
       if (presenterUser) {
         return presenterUser;

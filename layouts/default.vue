@@ -20,7 +20,7 @@ import { Component, Vue } from 'nuxt-property-decorator';
 import { TNotificationPayload, TRouteEventPayload } from '~/@types/domain';
 import { EEventBusName } from '~/core/bus/Domain';
 
-@Component
+@Component({ middleware: 'route-guard' })
 export default class DefaultLayout extends Vue {
   public mounted(): void {
     this.onEvents();

@@ -33,6 +33,7 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
 
   @PresenterCatcher()
   public async onLogout(): Promise<void> {
+    this.onResetState();
     await this.service.logout();
   }
 }

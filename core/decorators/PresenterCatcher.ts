@@ -1,6 +1,7 @@
 // import { EEventBusName } from '../bus/Domain';
 // import { EKeys, ETags } from '~/@types/cache';
 // import { TRouteEventPayload } from '~/@types/domain';
+import { USER_STORE_NS } from '~/business/user/store';
 import { context } from '~/core/context';
 
 export default function PresenterCatcher() {
@@ -13,12 +14,6 @@ export default function PresenterCatcher() {
     const originalMethod = descriptor.value;
     descriptor.value = function(...args: any[]) {
       try {
-        // const isUser = !!context.$cache.get(EKeys.USER, ETags.USER);
-        // if (!isUser) {
-        //   context.$bus.emit<TRouteEventPayload>(EEventBusName.ROUTER, {
-        //     name: '401'
-        //   });
-        // }
         context.store.commit('Core/setIsLoading');
         // @ts-ignore
         this.onChangeState({ isLoading: true });

@@ -48,6 +48,7 @@ export default class User extends Vue {
 
   private onLogout(): void {
     this.presenter.onLogout();
+    this.isMenuShown = false;
   }
 }
 </script>

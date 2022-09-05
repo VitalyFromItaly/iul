@@ -1,7 +1,3 @@
-// import { EEventBusName } from '../bus/Domain';
-// import { EKeys, ETags } from '~/@types/cache';
-// import { TRouteEventPayload } from '~/@types/domain';
-import { USER_STORE_NS } from '~/business/user/store';
 import { context } from '~/core/context';
 
 export default function PresenterCatcher() {

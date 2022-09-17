@@ -22,15 +22,15 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
         type: 'presenter',
         name: 'onCloseModal'
       }
+    },
+    {
+      variant: 'outline-primary',
+      text: 'Отправить заново',
+      method: {
+        type: 'presenter',
+        name: 'onSearchSubmit'
+      }
     }
-    // {
-    //   variant: 'outline-primary',
-    //   text: 'Отправить заново',
-    //   method: {
-    //     type: 'presenter',
-    //     name: 'onSearchSubmit'
-    //   }
-    // }
   ];
 
   constructor(stateMutator: IVuexStateHolder<TState>) {
@@ -63,12 +63,15 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
 
   @PresenterCatcher()
   public async onSearchSubmit(form?: TFormData): Promise<void> {
+    this.onResetModal();
+
     const queryData = form || this.state.form;
     if (form) {
       this.onChangeState({ form });
     }
 
     const response = await this.service.search(queryData);
+
     const { res: result, q_state: queryState } = response;
     this.onChangeState({ lastQuery: response, result, queryState });
     this.onQueryResult();

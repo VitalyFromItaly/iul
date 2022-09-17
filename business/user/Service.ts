@@ -14,6 +14,8 @@ export default class Service implements IService {
     const { $cache, $axios } = context;
     this.cache = $cache;
     this.axios = $axios;
+    // this.axios.setBaseURL(location.hostname);
+    // console.log(location);
   }
 
   public async read(): Promise<TUser> {

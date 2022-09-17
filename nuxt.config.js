@@ -2,7 +2,6 @@ export default () => {
   const fullEnvName = process.env.NODE_ENV;
   const baseUrl = process.env.BASE_URL || 'http://astra.rco.ru';
   const port = process.env.PORT || 8005;
-
   const config = {
     publicRuntimeConfig: {
       environment: fullEnvName,
@@ -87,7 +86,6 @@ export default () => {
       init(axios) {
         axios.defaults.withCredentials = true;
       }
-    // baseURL: 'http://astra.rco.ru/:'
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build

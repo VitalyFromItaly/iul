@@ -23,7 +23,6 @@ import { EEventBusName } from '~/core/bus/Domain';
 @Component({ middleware: 'route-guard' })
 export default class DefaultLayout extends Vue {
   public mounted(): void {
-    console.log(this);
     this.onEvents();
   }
 

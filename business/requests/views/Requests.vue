@@ -37,12 +37,12 @@
       format="string"
       width="25%"
     />
-    <dx-column
+    <!-- <dx-column
       caption="Статус"
       data-field="q_status_name"
       format="string"
       width="25%"
-    />
+    /> -->
     <dx-column
       caption="Состояние"
       data-field="q_state"

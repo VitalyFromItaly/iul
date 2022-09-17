@@ -1,23 +1,13 @@
-import { BASE_URL, PORT } from './static/config/api';
-import { BASE_URL as b, PORT as p } from './config/api';
 export default () => {
-  console.log({ BASE_URL, PORT });
   const fullEnvName = process.env.NODE_ENV;
-
   const baseUrl = process.env.BASE_URL || 'http://astra.rco.ru';
   const port = process.env.PORT || 8005;
-  const authPort = process.env.AUTH_PORT || 8002;
 
   const config = {
     publicRuntimeConfig: {
       environment: fullEnvName,
       baseUrl,
-      port,
-      authPort,
-      BASE_URL,
-      PORT,
-      b,
-      p
+      port
     },
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,

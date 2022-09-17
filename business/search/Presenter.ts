@@ -99,7 +99,8 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
   private defineModalFromExistQuery(): void {
     const { queryState } = this.state;
     const buttons = cloneDeep(this.buttons);
-    if (queryState === EQueryResultState.DONE) {
+    const isProcessed = queryState === EQueryResultState.PROCESSED;
+    if (isProcessed) {
       buttons.push({
         variant: 'primary',
         text: 'Результат',
@@ -114,7 +115,7 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
     const modal: TModal = {
       shown: EModal.QUERY_INFO,
       data: {
-        header: 'Запрос уже существует',
+        header: isProcessed ? 'Запрос выполнен' : 'Запрос уже существует',
         data: this.state.lastQuery,
         buttons
       }

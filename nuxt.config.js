@@ -1,4 +1,4 @@
-import { BASE_URL, PORT } from './static/config/config';
+import { BASE_URL, PORT } from './static/config/api';
 export default () => {
   console.log({ BASE_URL, PORT });
   const fullEnvName = process.env.NODE_ENV;
@@ -12,7 +12,9 @@ export default () => {
       environment: fullEnvName,
       baseUrl,
       port,
-      authPort
+      authPort,
+      BASE_URL,
+      PORT
     },
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,

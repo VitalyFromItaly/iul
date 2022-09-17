@@ -1,17 +1,19 @@
 <template>
   <div>
     <div>
-      <p
-        v-if="name"
-        class="text-white cursor-pointer"
-        @click="isMenuShown = !isMenuShown"
-      >
-        {{ name }}
-      </p>
-      <div @click="onLogin" v-else>
-        <b-button variant="secondary">
-          Авторизоваться
-        </b-button>
+      <div v-if="!state.isLoading">
+        <p
+          v-if="name"
+          class="text-white cursor-pointer"
+          @click="isMenuShown = !isMenuShown"
+        >
+          {{ name }}
+        </p>
+        <div v-else @click="onLogin">
+          <b-button variant="secondary">
+            Авторизоваться
+          </b-button>
+        </div>
       </div>
       <div
         v-if="isMenuShown"

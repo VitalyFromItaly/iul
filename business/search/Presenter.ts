@@ -28,7 +28,7 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
       text: 'Отправить заново',
       method: {
         type: 'presenter',
-        name: 'onSearchSubmit'
+        name: 'onSubmitQuery'
       }
     }
   ];
@@ -63,8 +63,6 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
 
   @PresenterCatcher()
   public async onSearchSubmit(form?: TFormData): Promise<void> {
-    this.onResetModal();
-
     const queryData = form || this.state.form;
     if (form) {
       this.onChangeState({ form });
@@ -126,7 +124,9 @@ export default class Presenter extends VuexObservable<TState> implements IPresen
     this.onChangeState({ modal });
   }
 
+  @PresenterCatcher()
   public async onSubmitQuery(): Promise<void> {
+    this.onResetModal();
     const status = await this.service.submitQuery(this.state.form);
 
     if (status !== EHttpCodes.SUCCESS) {

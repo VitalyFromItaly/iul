@@ -1,5 +1,6 @@
-// eslint-disable-next-line require-await
-export default async() => {
+import { BASE_URL, PORT } from './static/config/config';
+export default () => {
+  console.log({ BASE_URL, PORT });
   const fullEnvName = process.env.NODE_ENV;
 
   const baseUrl = process.env.BASE_URL || 'http://astra.rco.ru';

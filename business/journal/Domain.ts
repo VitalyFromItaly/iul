@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { TFetchState } from '~/business/core/Domain';
 import { IVuexObservable } from '~/business/core/store/Domain';
-import { EQueryResultState } from '~/@types/domain';
+import { EQueryResultState, EQueryStatus } from '~/@types/domain';
 
 export enum EUrls {
   GET_LOG = '/log_get'
@@ -25,6 +25,8 @@ export type TLogResponse = {
     oksm_id?: string;
     iul_name?: string;
   },
+  q_status: EQueryStatus;
+  q_status_name: string;
   info_msg: string;
   info_type: TInfoType;
   err_txt: string;

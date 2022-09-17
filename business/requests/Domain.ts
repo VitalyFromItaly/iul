@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { TFetchState } from '~/business/core/Domain';
 import { IVuexObservable } from '~/business/core/store/Domain';
-import { EQueryResultState } from '~/@types/domain';
+import { EQueryResultState, EQueryStatus } from '~/@types/domain';
 
 export enum EUrls {
   GET_QUERY_LIST = 'query_get_list'
@@ -31,6 +31,8 @@ export type TRequest = {
   q_text_show: string;
   dcreated: string;
   user_name: string;
+  q_status: EQueryStatus;
+  q_status_name: string;
   q_state_text_show: string;
   q_card_found: number;
   q_site_found: number;

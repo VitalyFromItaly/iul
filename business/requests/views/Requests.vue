@@ -38,6 +38,12 @@
       width="25%"
     />
     <dx-column
+      caption="Статус"
+      data-field="q_status_name"
+      format="string"
+      width="25%"
+    />
+    <dx-column
       caption="Состояние"
       data-field="q_state"
       width="15%"
@@ -160,7 +166,7 @@ export default class Requests extends Vue {
     if (!this.chosenRow) { return false; }
     const { q_state } = this.chosenRow;
 
-    return q_state === EQueryResultState.DONE;
+    return q_state === EQueryResultState.PROCESSED;
   }
 
   public async mounted(): Promise<void> {

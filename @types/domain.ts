@@ -72,5 +72,11 @@ export enum EQueryResultState {
   NEVER,
   PENDING,
   DONE,
+  PROCESSED
+}
+
+export enum EQueryStatus {
+  WAIT_PROCESSING,
+  PROCESSING,
   ERROR
 }

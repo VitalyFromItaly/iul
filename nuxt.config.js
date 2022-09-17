@@ -2,7 +2,7 @@ export default () => {
   const fullEnvName = process.env.NODE_ENV;
   const baseUrl = process.env.BASE_URL || 'http://astra.rco.ru';
   const port = process.env.PORT || 8005;
-
+  console.log({ baseUrl, port });
   const config = {
     publicRuntimeConfig: {
       environment: fullEnvName,

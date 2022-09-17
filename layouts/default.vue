@@ -33,7 +33,6 @@ export default class DefaultLayout extends Vue {
 
   private onRouteChange(): void {
     this.$bus.on(EEventBusName.ROUTER, (payload: TRouteEventPayload) => {
-      console.log({ payload });
       const { name, params } = payload;
       const routePayload: TRouteEventPayload = { name };
       if (params) { routePayload.params = params; }
